@@ -12,6 +12,7 @@ class DataBases extends Component
     use WithPagination;
 
     public $search = '';
+    protected $queryString = ['search'];
     public $event;
     public $key_event;
     public $name_event;
