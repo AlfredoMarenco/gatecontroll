@@ -14,33 +14,60 @@ class DataBases extends Component
     public $search = '';
     protected $queryString = ['search'];
     public $event;
-    public $key_event;
-    public $name_event;
-    public $date_start_event;
-    public $date_end_event;
+    public $key;
+    public $name;
+    public $date_start;
+    public $date_end;
+
+    public $editEventForm = [
+        'key' => null,
+        'name' => null,
+        'date_start' => null,
+        'date_end' => null
+    ];
     public $modal_create_event = false;
+    public $modal_edit_event = false;
 
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
-    public function store(){
+    public function storeEvent(){
         $this->validate([
-            'key_event' => 'required',
-            'name_event' => 'required',
-            'date_start_event' => 'required',
-            'date_end_event' => 'required'
+            'key' => 'required|unique:events',
+            'name' => 'required|unique:events',
+            'date_start' => 'required',
+            'date_end' => 'required'
         ]);
 
         Event::create([
-            'key' => $this->key_event,
-            'name' => $this->name_event,
-            'date_start' => $this->date_start_event,
-            'date_end' => $this->date_end_event,
+            'key' => $this->key,
+            'name' => $this->name,
+            'date_start' => $this->date_start,
+            'date_end' => $this->date_end,
             'status' => 1
         ]);
-        $this->reset('modal_create_event','key_event','name_event','date_start_event','date_end_event');
+        $this->reset('modal_create_event','key','name','date_start','date_end');
+    }
+
+    public function editEvent(Event $event){
+        $this->event = $event;
+        $this->modal_edit_event = true;
+        $this->editEventForm['key'] = $event->key;
+        $this->editEventForm['name'] = $event->name;
+        $this->editEventForm['date_start'] = $event->date_start;
+        $this->editEventForm['date_end'] = $event->date_end;
+    }
+
+    public function updateEvent(){
+        $this->event->update([
+            'key' => $this->editEventForm['key'],
+            'name' => $this->editEventForm['name'],
+            'date_start' => $this->editEventForm['date_start'],
+            'date_end' => $this->editEventForm['date_end'],
+        ]);
+        $this->modal_edit_event = false;
     }
 
     public function showEvent(Event $event){

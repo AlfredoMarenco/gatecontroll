@@ -22,29 +22,29 @@
                     <form>
                         <div class="mb-4">
                             <x-label>Key event:</x-label>
-                            <x-input type="text" wire:model="key_event" class="w-full" />
-                            @error('key_event')
+                            <x-input type="text" wire:model="key" class="w-full" />
+                            @error('key')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-4">
                             <x-label>Name:</x-label>
-                            <x-input type="text" wire:model="name_event" class="w-full" />
-                            @error('name_event')
+                            <x-input type="text" wire:model="name" class="w-full" />
+                            @error('name')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-4">
                             <x-label>Date start:</x-label>
-                            <x-input type="datetime-local" wire:model="date_start_event" class="w-full" />
-                            @error('date_start_event')
+                            <x-input type="datetime-local" wire:model="date_start" class="w-full" />
+                            @error('date_start')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-4">
                             <x-label>Date end:</x-label>
-                            <x-input type="datetime-local" wire:model="date_end_event" class="w-full" />
-                            @error('date_end_event')
+                            <x-input type="datetime-local" wire:model="date_end" class="w-full" />
+                            @error('date_end')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
@@ -53,7 +53,7 @@
                 <x-slot name="footer">
                     <div class="flex items-center justify-end space-x-2">
                         <x-danger-button wire:click="$set('modal_create_event',false)">Cancel</x-danger-button>
-                        <x-button wire:click="store()">Create</x-button>
+                        <x-button wire:click="storeEvent()">Create</x-button>
                     </div>
                 </x-slot>
             </x-dialog-modal>
@@ -67,7 +67,9 @@
                         <li class="flex items-center justify-between gap-x-6 py-5">
                             <div class="min-w-0">
                                 <div class="flex items-start gap-x-3">
-                                    <p class="text-xl font-semibold leading-6 text-gray-900 hover:underline hover:decoration-2 cursor-pointer">{{ $event->name }}</p>
+                                    <p
+                                        class="text-xl font-semibold leading-6 text-gray-900 hover:underline hover:decoration-2 cursor-pointer">
+                                        {{ $event->name }}</p>
                                     @if ($event->status)
                                         <p
                                             class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">
@@ -87,8 +89,8 @@
                                     <p class="truncate">Last update at {{ $event->updated_at }}</p>
                                 </div>
                             </div>
-                            <div class="flex flex-none items-center gap-x-4" x-data="{ open: false }">
-                                <div class="flex items-center cursor-pointer text-blue-500">
+                            <div class="flex flex-none items-center gap-x-4">
+                                <div wire:click="editEvent({{ $event }})" class="flex items-center cursor-pointer text-blue-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -105,38 +107,6 @@
                                     </svg>
                                     <p>Delete</p>
                                 </div>
-                                {{-- <a href="#"
-                                    class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">View
-                                    project<span class="sr-only">, GraphQL API</span></a> --}}
-                                {{-- <div class="relative flex-none">
-                                    <button @click="open = true"
-                                        class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900"
-                                        id="options-menu-0-button" aria-expanded="false" aria-haspopup="true">
-                                        <span class="sr-only">Open options</span>
-                                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path
-                                                d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" />
-                                        </svg>
-                                    </button>
-                                    <div x-show="open" @click.outside="open = false"
-                                        x-transition:enter="transition ease-out duration-100"
-                                        x-transition:enter-start="opacity-0 scale-95"
-                                        x-transition:enter-end="opacity-100 scale-100"
-                                        x-transition:leave="transition ease-in duration-75"
-                                        x-transition:leave-start="opacity-100 scale-100"
-                                        x-transition:leave-end="opacity-0 scale-95"
-                                        class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
-                                        role="menu" aria-orientation="vertical"
-                                        aria-labelledby="options-menu-0-button" tabindex="-1">
-                                        <!-- Active: "bg-gray-50", Not Active: "" -->
-                                        <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900"
-                                            role="menuitem" tabindex="-1" id="options-menu-0-item-0">Edit</a>
-                                        <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900"
-                                            role="menuitem" tabindex="-1" id="options-menu-0-item-1">Move</a>
-                                        <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900"
-                                            role="menuitem" tabindex="-1" id="options-menu-0-item-2">Delete</a>
-                                    </div>
-                                </div> --}}
                             </div>
                         </li>
                     </ul>
@@ -145,6 +115,47 @@
                     {{ $events->links() }}
                 </div>
             </div>
+            <x-dialog-modal wire:model="modal_edit_event">
+                <x-slot name="title">Edit Database</x-slot>
+                <x-slot name="content">
+                    <form>
+                        <div class="mb-4">
+                            <x-label>Key event:</x-label>
+                            <x-input type="text" wire:model="editEventForm.key" class="w-full" />
+                            @error('editEventForm.key')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <x-label>Name:</x-label>
+                            <x-input type="text" wire:model="editEventForm.name" class="w-full" />
+                            @error('editEventForm.name')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <x-label>Date start:</x-label>
+                            <x-input type="datetime-local" wire:model="editEventForm.date_start" class="w-full" />
+                            @error('editEventForm.date_start')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <x-label>Date end:</x-label>
+                            <x-input type="datetime-local" wire:model="editEventForm.date_end" class="w-full" />
+                            @error('editEventForm.date_end')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </form>
+                </x-slot>
+                <x-slot name="footer">
+                    <div class="flex items-center justify-end space-x-2">
+                        <x-danger-button wire:click="$set('modal_edit_event',false)">Cancel</x-danger-button>
+                        <x-button wire:click="updateEvent()">Update</x-button>
+                    </div>
+                </x-slot>
+            </x-dialog-modal>
         </div>
     </div>
 </div>
