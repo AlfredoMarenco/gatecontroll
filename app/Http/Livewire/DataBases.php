@@ -74,6 +74,10 @@ class DataBases extends Component
         $this->event = $event;
     }
 
+    public function showCodes(Event $event){
+        redirect()->route('codes',$event);
+    }
+
     public function render()
     {
         $events = Event::where('name','LIKE' ,'%'.$this->search.'%')->latest('id')->paginate(7);

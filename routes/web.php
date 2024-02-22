@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Codes;
 use App\Http\Livewire\DataBases;
 use App\Http\Livewire\Reports;
 use App\Http\Livewire\Scanner;
@@ -24,6 +25,8 @@ Route::get('/', function () {
 Route::get('/databases',DataBases::class)->name('databases');
 Route::get('/reports',Reports::class)->name('reports');
 Route::get('/settings',Settings::class)->name('settings');
+Route::get('/codes/{event}',Codes::class)->name('codes');
+
 
 
 Route::middleware([
