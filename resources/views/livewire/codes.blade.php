@@ -76,22 +76,22 @@
     @if ($actionSelect == 1)
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="relative mb-2">
-                <x-input wire:model="search" type="text" value="{{ $search }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></x-input>
+                <x-input wire:model="search" type="text" value="{{ $search }}"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></x-input>
             </div>
-            {{ $search }}
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-3">
                     {{ $codes->links() }}
                 </div>
-                <ul role="list" class="divide-y divide-gray-100 p-3">
-                    @foreach ($codes as $code)
+                <ul role="list" class="divide-y divide-gray-100 p-4">
+                    @forelse ($codes as $code)
                         <li class="flex justify-between gap-x-6 py-5">
                             <div class="flex min-w-0 gap-x-4">
                                 @switch($code->status_id)
                                     @case(1)
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
-                                            class="h-12 w-12 flex-none rounded-full bg-gray-50 text-green-500">
+                                            class="h-8 w-8 flex-none rounded-full bg-gray-50 text-green-500">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
@@ -100,7 +100,7 @@
                                     @case(2)
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
-                                            class="h-12 w-12 flex-none rounded-full bg-gray-50 text-orange-300">
+                                            class="h-8 w-8 flex-none rounded-full bg-gray-50 text-orange-300">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                                         </svg>
@@ -109,7 +109,7 @@
                                     @case(3)
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor"
-                                            class="h-12 w-12 flex-none rounded-full bg-gray-50 text-red-500">
+                                            class="h-8 w-8 flex-none rounded-full bg-gray-50 text-red-500">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
@@ -120,25 +120,131 @@
                                 <div class="min-w-0 flex-auto">
                                     <p class="text-2xl font-semibold leading-6 text-gray-900">{{ $code->barcode }}</p>
                                     <p class="mt-1 truncate text-sm leading-5 text-gray-500">
-                                        Section: {{ $code->section }} - Gate: {{ $code->gate }}
+                                        Section: {{ $code->section }}
                                     </p>
                                 </div>
                             </div>
-                            <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                <p class="text-sm leading-6 text-gray-900">Co-Founder / CEO</p>
-                                <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time
-                                        datetime="2023-01-23T13:23Z">3h
-                                        ago</time></p>
+                            <div class="flex items-center gap-x-4">
+                                <div wire:click="editCode({{ $code }})"
+                                    class="flex items-center cursor-pointer text-blue-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                    </svg>
+                                    <p>Edit</p>
+                                </div>
+                                <div wire:click="deleteCode({{ $code }})" class="flex items-center cursor-pointer text-red-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-3.5 h-3.5">
+                                        <path fill-rule="evenodd"
+                                            d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <p>Delete</p>
+                                </div>
                             </div>
                         </li>
-                    @endforeach
-                </ul>
+                        @empty
+                            <div>
+                                <p class="text-xl text-center text-gray-600 font-semibold">Edit</p>
+                                <p class="text-sm text-center text-gray-600 font-semibold">Add barcode values or import a
+                                    CSV file to start validating scans and generating barcodes.</p>
+                            </div>
+                        @endforelse
+                    </ul>
 
-                <div class="p-3">
-                    {{ $codes->links() }}
+                    <div class="p-3">
+                        {{ $codes->links() }}
+                    </div>
                 </div>
             </div>
-        </div>
-    @endif
-</div>
-</div>
+            <x-dialog-modal wire:model="modal_edit_code">
+                <x-slot name="title">Edit Barcode</x-slot>
+                <x-slot name="content">
+                    <form>
+                        <div class="mb-4">
+                            <x-label>Barcode:</x-label>
+                            <x-input type="text" wire:model="editBarcodeForm.barcode" class="w-full" />
+                            @error('editBarcodeForm.barcode')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <x-label>Secction:</x-label>
+                            <x-input type="text" wire:model="editBarcodeForm.section" class="w-full" />
+                            @error('editBarcodeForm.section')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
+                            <x-label>Status:</x-label>
+                            @foreach ($statuses as $status)
+                                <label for="">{{ $status->name }}</label>
+                                <x-input type="radio" wire:model="editBarcodeForm.status"
+                                    value="{{ $status->id }}" />
+                            @endforeach
+                            @error('editBarcodeForm.status')
+                                <span class="text-sm text-red-600">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </form>
+                </x-slot>
+                <x-slot name="footer">
+                    <div class="flex items-center justify-end space-x-2">
+                        <x-danger-button wire:click="$set('modal_edit_code',false)">Cancel</x-danger-button>
+                        <x-button wire:click="updateCode()">Update</x-button>
+                    </div>
+                </x-slot>
+            </x-dialog-modal>
+        @endif
+        @if ($actionSelect == 2)
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-1 p-3">
+                    <h2 class="text-3xl">Add a Barcode Value</h2>
+                    <div class="flex gap-x-4 items-center">
+                        <div>
+                            <label for="" class="block">Barcode value</label>
+                            <x-input type="text" aria-placeholder="Barcode Value" wire:model="barcode" />
+                            @error('barcode') <p class="text-xs text-red-500">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label for="" class="block">Section</label>
+                            <x-input type="text" aria-placeholder="Barcode Value" wire:model="section" />
+                            @error('section') <p class="text-xs text-red-500">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label for="" class="block">Status</label>
+                            @foreach ($statuses as $status)
+                                <input type="radio" value="{{ $status->id }}" wire:model="status">
+                                <label for="" class="mr-2">{{ $status->name }}</label>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <x-button wire:click="addBarcode">Add new</x-button>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if ($actionSelect == 3)
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-1 p-3">
+                    <h3 class="text-3xl font-semibold">CSV Import</h3>
+                    <p clas="text-sm text-sm">Save time over manual data entry.</p>
+                    <form wire:submit.prevent="import">
+                        <input type="file" wire:model="file">
+                        @error('file')
+                            <p>
+                                <span class="text-xs text-red-500">{{ $message }}</span>
+                            </p>
+                        @enderror
+
+                        <button type="submit">Save Photo</button>
+                    </form>
+                </div>
+            </div>
+        @endif
+
+    </div>
+    </div>
