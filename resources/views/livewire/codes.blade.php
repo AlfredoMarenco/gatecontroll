@@ -28,7 +28,7 @@
                         <nav class="-mb-px flex space-x-8">
                             <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
                             <a wire:click="selectAction('1')"
-                                class="flex cursor-pointer items-center border-transparent {{ $actionSelect == '1' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"><svg
+                                class="flex cursor-pointer items-center  {{ $actionSelect == '1' ? 'border-indigo-500 text-indigo-600 ' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700 border-transparent' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"><svg
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -36,14 +36,14 @@
                                 </svg>
                                 Search</a>
                             <a wire:click="selectAction('2')"
-                                class="flex cursor-pointer items-center border-transparent {{ $actionSelect == '2' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"><svg
+                                class="flex cursor-pointer items-center  {{ $actionSelect == '2' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700 border-transparent' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"><svg
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>
                                 Add</a>
                             <a wire:click="selectAction('3')"
-                                class="flex cursor-pointer items-center {{ $actionSelect == '3' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"
+                                class="flex cursor-pointer items-center {{ $actionSelect == '3' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700 border-transparent' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"
                                 aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -51,7 +51,7 @@
                                 </svg>
                                 Import</a>
                             <a wire:click="selectAction('4')"
-                                class="flex cursor-pointer items-center border-transparent {{ $actionSelect == '4' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"><svg
+                                class="flex cursor-pointer items-center  {{ $actionSelect == '4' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700 border-transparent' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"><svg
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -60,7 +60,7 @@
 
                                 Export</a>
                             <a wire:click="selectAction('5')"
-                                class="flex cursor-pointer items-center border-transparent {{ $actionSelect == '5' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"><svg
+                                class="flex cursor-pointer items-center {{ $actionSelect == '5' ? 'border-indigo-500 text-indigo-600' : 'text-gray-500 hover:border-gray-300 hover:text-gray-700 border-transparent' }} whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"><svg
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -134,7 +134,8 @@
                                     </svg>
                                     <p>Edit</p>
                                 </div>
-                                <div wire:click="deleteCode({{ $code }})" class="flex items-center cursor-pointer text-red-500">
+                                <div wire:click="delete({{ $code }})"
+                                    class="flex items-center cursor-pointer text-red-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="w-3.5 h-3.5">
                                         <path fill-rule="evenodd"
@@ -197,21 +198,44 @@
                     </div>
                 </x-slot>
             </x-dialog-modal>
+            {{-- Modal para eliminar codigo --}}
+            <x-dialog-modal wire:model="modal_delete_code">
+                <x-slot name="title">Delete Barcode</x-slot>
+                <x-slot name="content">
+                    <p class="text-red-500">Are you sure you want to delete this Barcode Value? You will not be able to
+                        undo this action</p>
+                </x-slot>
+                <x-slot name="footer">
+                    <div class="flex items-center justify-end space-x-2">
+                        <x-danger-button wire:click="$set('modal_delete_code',false)">Cancel</x-danger-button>
+                        <x-button wire:click="deleteCode()">Delete</x-button>
+                    </div>
+                </x-slot>
+            </x-dialog-modal>
         @endif
         @if ($actionSelect == 2)
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-1 p-3">
                     <h2 class="text-3xl">Add a Barcode Value</h2>
+                    @if (session()->has('message'))
+                        <div class="w-full px-2 py-4 bg-green-600 text-white">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <div class="flex gap-x-4 items-center">
                         <div>
                             <label for="" class="block">Barcode value</label>
                             <x-input type="text" aria-placeholder="Barcode Value" wire:model="barcode" />
-                            @error('barcode') <p class="text-xs text-red-500">{{ $message }}</p> @enderror
+                            @error('barcode')
+                                <p class="text-xs text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label for="" class="block">Section</label>
                             <x-input type="text" aria-placeholder="Barcode Value" wire:model="section" />
-                            @error('section') <p class="text-xs text-red-500">{{ $message }}</p> @enderror
+                            @error('section')
+                                <p class="text-xs text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label for="" class="block">Status</label>
@@ -234,13 +258,40 @@
                     <p clas="text-sm text-sm">Save time over manual data entry.</p>
                     <form wire:submit.prevent="import">
                         <input type="file" wire:model="file">
+
+                        <div class="col-span-full">
+                            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover
+                                photo</label>
+                            <div
+                                class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                <div class="text-center">
+                                    <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor"
+                                        aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                                        <label for="file-upload"
+                                            class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                                            <span>Upload a file</span>
+                                            <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                </div>
+                            </div>
+                        </div>
                         @error('file')
                             <p>
                                 <span class="text-xs text-red-500">{{ $message }}</span>
                             </p>
                         @enderror
 
-                        <button type="submit">Save Photo</button>
+                        <div class="mt-2">
+                            <x-button type="submit">Upload file</x-button>
+                        </div>
                     </form>
                 </div>
             </div>

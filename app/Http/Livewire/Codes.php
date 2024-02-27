@@ -26,6 +26,7 @@ class Codes extends Component
     public $status = 1;
 
     public $modal_edit_code = false;
+    public $modal_delete_code = false;
 
     public $editBarcodeForm = [
         'barcode' => null,
@@ -66,6 +67,9 @@ class Codes extends Component
             'status_id' => $this->status,
             'event_id' => $this->event->id
         ]);
+
+        $this->reset('barcode','section');
+        session()->flash('message', 'Barcode successfully added.');
     }
 
     public function editCode(Code $code){
@@ -85,8 +89,13 @@ class Codes extends Component
         $this->modal_edit_code = false;
     }
 
-    public function deleteCode(Code $code){
-        $code->delete();
+    public function delete(Code $code){
+        $this->code = $code;
+        $this->modal_delete_code = true;
+    }
+    public function deleteCode(){
+        $this->code->delete();
+        $this->modal_delete_code = false;
     }
 
     public function render()
