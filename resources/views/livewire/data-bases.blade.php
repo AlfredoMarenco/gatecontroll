@@ -34,20 +34,6 @@
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="mb-4">
-                            <x-label>Date start:</x-label>
-                            <x-input type="datetime-local" wire:model="date_start" class="w-full" />
-                            @error('date_start')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <x-label>Date end:</x-label>
-                            <x-input type="datetime-local" wire:model="date_end" class="w-full" />
-                            @error('date_end')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
                     </form>
                 </x-slot>
                 <x-slot name="footer">
@@ -70,15 +56,9 @@
                                     <p
                                         class="text-xl font-semibold leading-6 text-gray-900 hover:underline hover:decoration-2 cursor-pointer">
                                         {{ $event->name }}</p>
-                                    @if ($event->status)
                                         <p
-                                            class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">
-                                            Active</p>
-                                    @else
-                                        <p
-                                            class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-red-700 bg-red-50 ring-red-600/20">
-                                            Inactive</p>
-                                    @endif
+                                            class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-orange-700 bg-orange-50 ring-orange-600/20">
+                                            {{ $event->key }}</p>
                                 </div>
                                 <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                                     <p class="whitespace-nowrap">Create at <time
@@ -142,20 +122,6 @@
                             <x-label>Name:</x-label>
                             <x-input type="text" wire:model="editEventForm.name" class="w-full" />
                             @error('editEventForm.name')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <x-label>Date start:</x-label>
-                            <x-input type="datetime-local" wire:model="editEventForm.date_start" class="w-full" />
-                            @error('editEventForm.date_start')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <x-label>Date end:</x-label>
-                            <x-input type="datetime-local" wire:model="editEventForm.date_end" class="w-full" />
-                            @error('editEventForm.date_end')
                                 <span class="text-sm text-red-600">{{ $message }}</span>
                             @enderror
                         </div>

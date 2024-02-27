@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Record extends Model
 {
@@ -12,11 +12,23 @@ class Record extends Model
 
     protected $guarded = ['id'];
 
-    //Relaciones muchos a muchos
 
-    public function users():BelongsToMany
+
+    //Relaciones uno a muchos inversa
+
+    public function user():BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function code():BelongsTo
+    {
+        return $this->belongsTo(Code::class);
+    }
+
+    public function service():BelongsTo
+    {
+        return $this->belongsTo(Service::class);
     }
 
 }

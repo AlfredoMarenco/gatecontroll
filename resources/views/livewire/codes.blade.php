@@ -260,7 +260,7 @@
                         <input type="file" wire:model="file">
 
                         <div class="col-span-full">
-                            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover
+                            {{-- <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover
                                 photo</label>
                             <div
                                 class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -281,7 +281,7 @@
                                     </div>
                                     <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         @error('file')
                             <p>
