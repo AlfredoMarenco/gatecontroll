@@ -4,6 +4,7 @@ use App\Http\Livewire\Codes;
 use App\Http\Livewire\DataBases;
 use App\Http\Livewire\Reports;
 use App\Http\Livewire\Scanner;
+use App\Http\Livewire\Services;
 use App\Http\Livewire\Settings;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,7 @@ Route::get('/', function () {
     return redirect()->route('scanner');
 });
 
+Route::get('/services',Services::class)->name('services');
 Route::get('/databases',DataBases::class)->name('databases');
 Route::get('/reports',Reports::class)->name('reports');
 Route::get('/settings',Settings::class)->name('settings');
