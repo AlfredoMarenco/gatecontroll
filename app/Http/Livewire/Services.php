@@ -9,6 +9,11 @@ class Services extends Component
 {
 
     public $search;
+
+    public function showService(Service $service){
+        redirect()->route('services.settings',$service);
+    }
+    
     public function render()
     {
         return view('livewire.services',[

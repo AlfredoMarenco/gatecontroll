@@ -17,7 +17,7 @@ class ServiceFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->title(),
+            'title' => $this->faker->word(),
             'description' =>  $this->faker->text(),
             'date_start' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'date_end' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
