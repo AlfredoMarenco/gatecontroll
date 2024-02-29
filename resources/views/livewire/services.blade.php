@@ -15,31 +15,64 @@
                 </svg>
             </span>
             <x-input type="text" class="w-full" placeholder="Search service" wire:model="search" />
-            <x-button wire:click="$set('modal_create_event',true)" class="mx-2">Create new</x-button>
-            <x-dialog-modal wire:model="modal_create_event">
+            <x-button wire:click="$set('modal_create_service',true)" class="mx-2">Create new</x-button>
+            <x-dialog-modal wire:model="modal_create_service">
                 <x-slot name="title">Create new service</x-slot>
                 <x-slot name="content">
                     <form>
-                        <div class="mb-4">
-                            <x-label>Key event:</x-label>
-                            <x-input type="text" wire:model="key" class="w-full" />
-                            @error('key')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <x-label>Name:</x-label>
-                            <x-input type="text" wire:model="name" class="w-full" />
-                            @error('name')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        @if ($step1)
+                            <div class="mb-4">
+                                <x-label>Name:</x-label>
+                                <x-input type="text" wire:model="title" class="w-full" />
+                                @error('title')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <x-label>Start Date:</x-label>
+                                <x-input type="datetime-local" wire:model="date_start" class="w-full" />
+                                @error('title')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <x-label>End Date:</x-label>
+                                <x-input type="datetime-local" wire:model="date_end" class="w-full" />
+                                @error('title')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <x-label>Description:</x-label>
+                                <textarea type="text" wire:model="description" class="w-full h-44 rounded-md border-gray-400"> </textarea>
+                                @error('description')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        @endif
+                        @if ($step2)
+                            <p class="text-gray-800 text-md mt-6">Select the databases you want to use: </p>
+                            <div class="grid grid-cols-2 gap-3 p-4">
+                                @foreach ($events as $event)
+                                    <div>
+                                        <input type="checkbox" wire:model="databases" value="{{ $event->id }}">
+                                        {{ $event->name }} <span
+                                            class="text-sm text-gray-400">({{ $event->key }})</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </form>
                 </x-slot>
                 <x-slot name="footer">
                     <div class="flex items-center justify-end space-x-2">
-                        <x-danger-button wire:click="$set('modal_create_event',false)">Cancel</x-danger-button>
-                        <x-button wire:click="storeEvent()">Create</x-button>
+                        <x-danger-button wire:click="$set('modal_create_service',false)">Cancel</x-danger-button>
+                        @if ($step1)
+                            <x-button wire:click="storeService()">Create</x-button>
+                        @endif
+                        @if ($step2)
+                            <x-button wire:click="assignDatabases()">Assign</x-button>
+                        @endif
                     </div>
                 </x-slot>
             </x-dialog-modal>
@@ -57,14 +90,28 @@
                                         class="text-xl font-semibold leading-6 text-gray-900 hover:underline hover:decoration-2 cursor-pointer">
                                         {{ $service->title }}</p>
 
-                                    <p
-                                        class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-orange-700 bg-orange-50 ring-orange-600/20">
-                                        {{ $service->key }}</p>
+                                    @if ($service->status)
+                                        <p
+                                            class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">
+                                            Enable</p>
+                                    @else
+                                        <p
+                                            class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-red-700 bg-red-50 ring-red-600/20">
+                                            Disable</p>
+                                    @endif
                                 </div>
                                 <div>
-                                    <p class="w-1/2">
+                                    <p class="text-sm text-gray-400 p-2">
                                         {{ $service->description }}
                                     </p>
+                                    <div class="text-sm text-gray-400 px-2">
+                                        Databases include:
+                                        @foreach ($service->events as $event)
+                                            <span class="text-xs text-gray-400 hover:text-gray-700 cursor-pointer">-
+                                                ({{ $event->key }})
+                                            </span>
+                                        @endforeach
+                                    </div>
                                 </div>
                                 <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                                     <p class="whitespace-nowrap">Create at <time

@@ -12,7 +12,6 @@ class DataBases extends Component
     use WithPagination;
 
     public $search = '';
-    protected $queryString = ['search'];
     public $event;
     public $key;
     public $name;
@@ -75,7 +74,7 @@ class DataBases extends Component
     }
 
     public function showCodes(Event $event){
-        redirect()->route('codes',$event);
+        redirect()->route('databases.codes',$event);
     }
 
     public function render()

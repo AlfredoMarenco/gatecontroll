@@ -13,13 +13,13 @@ class SettingsServices extends Component
     public $service;
     public $actionSelect = 1;
     public $databases = [];
-    public $scanners=[];
+    public $scanners = [];
 
     public function mount(Service $service)
     {
         $this->service = $service;
         $this->databases = $service->events->pluck('id');
-        $this->scanners = User::pluck('id');
+        $this->scanners = $service->users->pluck('id');
     }
 
     public function selectAction($value){
@@ -28,6 +28,11 @@ class SettingsServices extends Component
 
     public function update(){
         $this->service->events()->sync($this->databases);
+    }
+
+
+    public function updateUsers(){
+        $this->service->users()->sync($this->scanners);
     }
 
     public function render()

@@ -15,10 +15,10 @@
                     <x-nav-link href="{{ route('scanner') }}" :active="request()->routeIs('scanner')">
                         {{ __('Scanner') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('services') }}" :active="request()->routeIs('services')">
+                    <x-nav-link href="{{ route('services') }}" :active="request()->routeIs('services*')">
                         {{ __('Services') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('databases') }}" :active="request()->routeIs('databases.*')">
+                    <x-nav-link href="{{ route('databases') }}" :active="request()->routeIs('databases*')">
                         {{ __('Databases') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('reports') }}" :active="request()->routeIs('reports')">

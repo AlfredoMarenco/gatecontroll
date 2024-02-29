@@ -55,22 +55,22 @@
                     </div>
                     <x-button>Update</x-button>
                 </form>
-                Events: {{ var_export($databases) }}
+                {{-- Events: {{ var_export($databases) }} --}}
             @endif
             @if ($actionSelect == 2)
-                <p class="text-gray-800 text-md mt-6">Select the databases you want to use: </p>
-                <form wire:submit.prevent="update">
+                <p class="text-gray-800 text-md mt-6">Select the users you want to use: </p>
+                <form wire:submit.prevent="updateUsers">
                     <div class="grid grid-cols-2 gap-3 p-4">
                         @foreach ($users as $user)
                             <div>
-                                <input type="checkbox" wire:model="databases" value="{{ $user->id }}">
+                                <input type="checkbox" wire:model="scanners" value="{{ $user->id }}">
                                 {{ $user->name }}
                             </div>
                         @endforeach
                     </div>
                     <x-button>Update</x-button>
                 </form>
-                Events: {{ var_export($users) }}
+                {{-- Events: {{ var_export($scanners) }} --}}
             @endif
         </div>
     </div>

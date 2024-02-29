@@ -27,9 +27,9 @@ Route::get('/', function () {
 Route::get('/services',Services::class)->name('services');
 Route::get('/services/settings/{service}', SettingsServices::class)->name('services.settings');
 Route::get('/databases',DataBases::class)->name('databases');
+Route::get('/databases/codes/{event}',Codes::class)->name('databases.codes');
 Route::get('/reports',Reports::class)->name('reports');
 Route::get('/settings',Settings::class)->name('settings');
-Route::get('/codes/{event}',Codes::class)->name('codes');
 
 
 

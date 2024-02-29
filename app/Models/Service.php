@@ -23,4 +23,10 @@ class Service extends Model
     {
         return $this->belongsToMany(Event::class);
     }
+
+    //relacion muchos a muchos usuarios
+    public function users():BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

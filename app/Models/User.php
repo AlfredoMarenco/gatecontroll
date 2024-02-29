@@ -67,4 +67,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Record::class);
     }
+
+    //Relacion muchos a muchos con services
+    public function services():BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
+    }
 }
