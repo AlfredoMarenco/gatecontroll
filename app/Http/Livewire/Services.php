@@ -41,6 +41,10 @@ class Services extends Component
         $this->step2 = true;
     }
 
+    public function assignDatabases(){
+        $this->service->events()->sync($this->databases);
+    }
+
     public function render()
     {
         return view('livewire.services',[
