@@ -16,12 +16,14 @@ return new class extends Migration
         Schema::create('codes', function (Blueprint $table) {
             $table->id();
             $table->string('barcode');
+            $table->string('client_name')->nullable();
             $table->string('section');
+            $table->string('price_category')->nullable();
             $table->string('row')->nullable();
             $table->string('seat')->nullable();
-            $table->string('gate');
-            $table->string('order');
-            $table->float('price');
+            $table->string('cost_ticket')->nullable();
+            $table->string('order')->nullable();
+            $table->string('price_type')->nullable();
             $table->foreignId('status_id')->constrained('statuses');
             $table->foreignId('event_id')->constrained('events');
             $table->timestamps();

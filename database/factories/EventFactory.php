@@ -19,9 +19,6 @@ class EventFactory extends Factory
         return [
             'key' => $this->faker->randomNumber(5,true),
             'name' => $this->faker->sentence(4),
-            'date_start' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
-            'date_end' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
-            'status' => $this->faker->boolean()
         ];
     }
 }

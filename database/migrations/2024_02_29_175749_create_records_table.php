@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('code_id')->constrained('codes');
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('service_id')->constrained('services');
             $table->timestamps();
         });
     }

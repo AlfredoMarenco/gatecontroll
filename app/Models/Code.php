@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Code extends Model
 {
@@ -25,11 +26,9 @@ class Code extends Model
         return $this->belongsTo((Status::class));
     }
 
-    //Relaciones muchos a muchos
-
-    public function codes():BelongsToMany
+    public function records():HasMany
     {
-        return $this->belongsToMany(Code::class);
+        return $this->hasMany(Record::class);
     }
 
 }

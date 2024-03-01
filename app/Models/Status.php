@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Status extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
 
     //Relacion uno a muchos
     public function codes():HasMany
