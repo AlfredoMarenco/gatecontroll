@@ -52,13 +52,23 @@
                     <ul role="list" class="divide-y divide-gray-100">
                         <li class="flex items-center justify-between gap-x-6 py-5">
                             <div class="min-w-0">
-                                <div class="flex items-start gap-x-3">
+                                <div class="flex items-center gap-x-2">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                        </svg>
+                                    </span>
                                     <p
-                                        class="text-xl font-semibold leading-6 text-gray-900 hover:underline hover:decoration-2 cursor-pointer">
+                                        class="text-2xl font-semibold leading-6 text-gray-900 hover:underline hover:decoration-2 cursor-pointer">
                                         {{ $event->name }}</p>
-                                        <p
-                                            class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-orange-700 bg-orange-50 ring-orange-600/20">
-                                            {{ $event->key }}</p>
+                                    <p
+                                        class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-orange-700 bg-orange-50 ring-orange-600/20">
+                                        {{ $event->key }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-600">Values: {{$event->codes->count()}}</p>
                                 </div>
                                 <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                                     <p class="whitespace-nowrap">Create at <time
