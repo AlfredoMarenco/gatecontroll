@@ -143,7 +143,7 @@
 
                                     <p>Settings</p>
                                 </div>
-                                <div wire:click="editEvent({{ $service }})"
+                                <div wire:click="editService({{ $service }})"
                                     class="flex items-center cursor-pointer text-blue-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5">
@@ -169,33 +169,85 @@
                     {{ $services->links() }}
                 </div>
             </div>
-            <x-dialog-modal wire:model="modal_edit_event">
-                <x-slot name="title">Edit Database</x-slot>
+            <x-dialog-modal wire:model="modal_edit_service">
+                <x-slot name="title">Edit service</x-slot>
                 <x-slot name="content">
                     <form>
-                        <div class="mb-4">
-                            <x-label>Key event:</x-label>
-                            <x-input type="text" wire:model="editEventForm.key" class="w-full" />
-                            @error('editEventForm.key')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <x-label>Name:</x-label>
-                            <x-input type="text" wire:model="editEventForm.name" class="w-full" />
-                            @error('editEventForm.name')
-                                <span class="text-sm text-red-600">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        @if ($step1)
+                            <div class="mb-4">
+                                <x-label>Name:</x-label>
+                                <x-input type="text" wire:model="editServiceForm.title" class="w-full" />
+                                @error('title')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <x-label>Start Date:</x-label>
+                                <x-input type="datetime-local" wire:model="editServiceForm.date_start"
+                                    class="w-full" />
+                                @error('title')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <x-label>End Date:</x-label>
+                                <x-input type="datetime-local" wire:model="editServiceForm.date_end"
+                                    class="w-full" />
+                                @error('title')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <x-label>Description:</x-label>
+                                <textarea type="text" wire:model="editServiceForm.description" class="w-full h-44 rounded-md border-gray-400"> </textarea>
+                                @error('description')
+                                    <span class="text-sm text-red-600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        @endif
+                        @if ($step2)
+                            <p class="text-gray-800 text-md mt-6">Select the databases you want to use: </p>
+                            <div class="grid grid-cols-2 gap-3 p-4">
+                                @foreach ($events as $event)
+                                    <div>
+                                        <input type="checkbox" wire:model="editServiceForm.databases"
+                                            value="{{ $event->id }}">
+                                        {{ $event->name }} <span
+                                            class="text-sm text-gray-400">({{ $event->key }})</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </form>
                 </x-slot>
                 <x-slot name="footer">
                     <div class="flex items-center justify-end space-x-2">
-                        <x-danger-button wire:click="$set('modal_edit_event',false)">Cancel</x-danger-button>
-                        <x-button wire:click="updateEvent()">Update</x-button>
+                        <x-danger-button wire:click="$set('modal_edit_service',false)">Cancel</x-danger-button>
+                        <x-button wire:click="updateService()">Update</x-button>
                     </div>
                 </x-slot>
             </x-dialog-modal>
         </div>
     </div>
+    @push('js')
+        <script>
+            window.addEventListener('valid', event => {
+                Swal.fire({
+                    title: event.detail.title,
+                    html: event.detail.html,
+                    icon: event.detail.icon,
+                    timer: event.detail.timer,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer')
+                    }
+                })
+            });
+        </script>
+    @endpush
 </div>

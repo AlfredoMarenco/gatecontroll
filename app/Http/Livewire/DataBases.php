@@ -44,7 +44,7 @@ class DataBases extends Component
         ]);
 
         $this->dispatchBrowserEvent('valid', [
-            'title' => 'DATA BASE CHARGE SUCCESSFUL',
+            'title' => 'DATABASE CREATED SUCCESSFUL',
             'html' => '',
             'icon' => 'success',
             'timer' => 2000,

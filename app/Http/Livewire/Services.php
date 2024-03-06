@@ -18,6 +18,14 @@ class Services extends Component
     public $date_end;
     public $databases = [];
     public $modal_create_service = false;
+    public $modal_edit_service = false;
+    public $editServiceForm = [
+        'key' => null,
+        'title' => null,
+        'description' => null,
+        'date_start' => null,
+        'date_end' => null
+    ];
 
     public $step1=true;
     public $step2=false;
@@ -43,7 +51,42 @@ class Services extends Component
 
     public function assignDatabases(){
         $this->service->events()->sync($this->databases);
+        $this->dispatchBrowserEvent('valid', [
+            'title' => 'SERVICE CREATED SUCCESSFUL',
+            'html' => '',
+            'icon' => 'success',
+            'timer' => 2000,
+        ]);
+        $this->modal_create_service = false;
+        $this->reset('step1','step2');
     }
+
+    //Function for edit service
+    public function editService(Service $service){
+        $this->service = $service;
+        $this->modal_edit_service = true;
+        $this->editServiceForm['title'] = $service->title;
+        $this->editServiceForm['description'] = $service->description;
+        $this->editServiceForm['date_start'] = $service->date_start;
+        $this->editServiceForm['date_end'] = $service->date_end;
+    }
+    public function updateService(){
+        $this->service->update([
+            'title' => $this->editServiceForm['title'],
+            'description' => $this->editServiceForm['description'],
+            'date_start' => $this->editServiceForm['date_start'],
+            'date_end' => $this->editServiceForm['date_end'],
+        ]);
+        $this->dispatchBrowserEvent('valid', [
+            'title' => 'SERVICE UPDATED SUCCESSFUL',
+            'html' => '',
+            'icon' =>'success',
+            'timer' => 2000,
+        ]);
+        $this->modal_edit_service = false;
+        $this->reset('step1','step2');
+    }
+
 
     public function render()
     {
