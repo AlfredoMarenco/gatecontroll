@@ -48,7 +48,7 @@
     <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-xl sm:rounded-lg px-4">
-                @foreach ($events as $event)
+                @forelse ($events as $event)
                     <ul role="list" class="divide-y divide-gray-100">
                         <li class="flex items-center justify-between gap-x-6 py-5">
                             <div class="min-w-0">
@@ -68,7 +68,7 @@
                                         {{ $event->key }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-600">Values: {{$event->codes->count()}}</p>
+                                    <p class="text-xs text-gray-600">Values: {{ $event->codes->count() }}</p>
                                 </div>
                                 <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                                     <p class="whitespace-nowrap">Create at <time
@@ -100,7 +100,8 @@
                                     </svg>
                                     <p>Edit</p>
                                 </div>
-                                <div class="flex items-center cursor-pointer text-red-500">
+                                <div wire:click="deleteEvent({{ $event }})"
+                                    class="flex items-center cursor-pointer text-red-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="w-3.5 h-3.5">
                                         <path fill-rule="evenodd"
@@ -112,7 +113,10 @@
                             </div>
                         </li>
                     </ul>
-                @endforeach
+                @empty
+                    <p class="text-gray-500">No databases found</p>
+                @endforelse
+
                 <div class="p-3">
                     {{ $events->links() }}
                 </div>
@@ -146,4 +150,25 @@
             </x-dialog-modal>
         </div>
     </div>
+    @push('js')
+        <script>
+            window.addEventListener('valid', event => {
+                Swal.fire({
+                    title: event.detail.title,
+                    html: event.detail.html,
+                    icon: event.detail.icon,
+                    timer: event.detail.timer,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer')
+                    }
+                })
+            });
+        </script>
+    @endpush
 </div>

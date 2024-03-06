@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('order')->nullable();
             $table->string('price_type')->nullable();
             $table->foreignId('status_id')->constrained('statuses');
-            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('event_id')->constrained('events')->onDelete('cascade');
             $table->timestamps();
         });
     }

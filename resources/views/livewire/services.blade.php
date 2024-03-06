@@ -114,7 +114,7 @@
                                     <p class="text-sm text-gray-400 p-2">
                                         {{ $service->description }}
                                     </p>
-                                    <div class="text-sm text-gray-400 px-2">
+                                    <div class="text-sm text-gray-600 px-2">
                                         Databases include:
                                         @foreach ($service->events as $event)
                                             <span class="text-xs text-gray-400 hover:text-gray-700 cursor-pointer">-
@@ -123,7 +123,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                                <div class="mt-1 flex items-center px-2 gap-x-2 text-xs leading-5 text-gray-500">
                                     <p class="whitespace-nowrap">Create at <time
                                             datetime="2023-03-17T00:00Z">{{ $service->created_at }}</time></p>
                                     <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
