@@ -39,7 +39,8 @@ class SettingsServices extends Component
     {
         return view('livewire.settings-services',[
             'events' => Event::orderBy('id','desc')->get(),
-            'users' => User::orderBy('id','desc')->get()
+            'users' => User::orderBy('id','desc')->get(),
+            'dors' => $this->service->events()->get(),
         ]);
     }
 }

@@ -55,7 +55,7 @@ class Services extends Component
             'title' => 'SERVICE CREATED SUCCESSFUL',
             'html' => '',
             'icon' => 'success',
-            'timer' => 2000,
+            'timer' => 1500,
         ]);
         $this->modal_create_service = false;
         $this->reset('step1','step2');
@@ -81,7 +81,7 @@ class Services extends Component
             'title' => 'SERVICE UPDATED SUCCESSFUL',
             'html' => '',
             'icon' =>'success',
-            'timer' => 2000,
+            'timer' => 1500,
         ]);
         $this->modal_edit_service = false;
         $this->reset('step1','step2');
