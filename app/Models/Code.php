@@ -31,4 +31,12 @@ class Code extends Model
         return $this->hasMany(Record::class);
     }
 
+    //Relacion uno a muchos a hasOneThrough de events a services
+    public function eventService():HasOneThrough
+    {
+        return $this->hasOneThrough(Event::class, Service::class);
+    }
+
+
+
 }
