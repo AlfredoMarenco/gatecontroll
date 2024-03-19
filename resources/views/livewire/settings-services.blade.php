@@ -61,9 +61,7 @@
             @endif
             @if ($actionSelect == 2)
                 <div>
-                    @foreach ($dors as $dor)
-                        {{$dor->pivot}}
-                    @endforeach
+                    {{$dors->codes}}
                 </div>
             @endif
             @if ($actionSelect == 3)
