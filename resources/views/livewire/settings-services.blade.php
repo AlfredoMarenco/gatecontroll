@@ -61,7 +61,9 @@
             @endif
             @if ($actionSelect == 2)
                 <div>
-                    {{$dors->codes}}
+                    @foreach ($dors->codes as $dor)
+                        {{ $dor->section }}
+                    @endforeach
                 </div>
             @endif
             @if ($actionSelect == 3)

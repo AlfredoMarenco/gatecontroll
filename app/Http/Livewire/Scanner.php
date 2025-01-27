@@ -12,16 +12,30 @@ class Scanner extends Component
 
     public function scanBarcode()
     {
-        $barcode = Code::where('barcode', $this->barcode)->where('status_id', '2')->first();
+        $barcode = Code::where('barcode', $this->barcode)->first();
         //dd($barcode);
         if ($barcode) {
-            $this->dispatchBrowserEvent('valid', [
-                'title' => 'CODIGO YA INGRESADO',
-                'html' => 'ALTO - TARJETA YA INGRESADA <br> <small> '. $barcode->updated_at .' </small>',
-                'icon' => 'error',
-                'timer' => 2500,
-            ]);
-            $this->reset('barcode');
+            if ($barcode->count == 1) {
+                $this->dispatchBrowserEvent('valid', [
+                    'title' => 'CODIGO VALIDO 2',
+                    'html' => 'ADELANTE',
+                    'icon' => 'success',
+                    'timer' => 1800,
+                ]);
+                $barcode->update([
+                    'count' => '2',
+                    'status_id' => 2,
+                ]);
+                $this->reset('barcode');
+            }else{
+                $this->dispatchBrowserEvent('valid', [
+                    'title' => 'CODIGO YA INGRESADO',
+                    'html' => 'ALTO - TARJETA YA INGRESADA <br> <small> '. $barcode->updated_at .' </small>',
+                    'icon' => 'error',
+                    'timer' => 2500,
+                ]);
+                $this->reset('barcode');
+            }
         } else {
             $this->dispatchBrowserEvent('valid', [
                 'title' => 'CODIGO VALIDO',
@@ -32,8 +46,9 @@ class Scanner extends Component
             Code::create([
                 'barcode' => $this->barcode,
                 'section' => 'filtro',
-                'status_id' => 2,
                 'event_id' => 1,
+                'status_id' => 1,
+                'count' => '1',
             ]);
             $this->reset('barcode');
         }
