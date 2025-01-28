@@ -4,7 +4,7 @@
             {{ __('Scanner') }}
         </h2>
 
-        <div wire:offline.class="bg-red-300"></div>
+        <div wire:offline.class="bg-red-300">Sin internet</div>
     </x-slot>
 
     <div class="py-12">
