@@ -3,6 +3,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Scanner') }}
         </h2>
+        <div wire:offline.class.remove="bg-green-300" class="bg-green-300 text-center">-</div>
     </x-slot>
 
     <div class="py-12">
